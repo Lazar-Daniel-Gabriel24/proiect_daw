@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "proiect";
+$username = "id21496472_daniel";
+$password = "Daniel1234.";
+$dbname = "id21496472_proiectsite";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -13,6 +13,7 @@ if (!$conn) {
 
 
 
+// Închide conexiunea la baza de date după ce ai terminat operațiunile
 function closeDBConnection() {
     global $conn;
     mysqli_close($conn);
