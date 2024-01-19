@@ -4,6 +4,8 @@ session_start();
 include('connect.php');
 include('functions.php');
 
+$user_id = $_SESSION['user_id']; // Move this line here
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
@@ -14,14 +16,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
     header('Location: login.php');
     exit();
 }
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buyTicket'])) {
+    $filmIdToBuy = $_POST['buyTicket'];
+    $buyTicketResult = buyTicket($conn, $filmIdToBuy, $user_id);
+    echo '<p class="success-message">' . $buyTicketResult . '</p>';
+}
+
+
 $user_id = $_SESSION['user_id'];
 $user_info = getUserById($user_id);
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <title>Proiect Rezervare Bilete Online - Descriere</title>
+    <title>Pagina Web</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -78,8 +92,8 @@ $user_info = getUserById($user_id);
             color: #fff;
         }
         #logout-container {
-        text-align: right;
-        margin-top: 10px;
+            text-align: right;
+            margin-top: 10px;
         }
 
         #logout-btn {
@@ -93,6 +107,23 @@ $user_info = getUserById($user_id);
 
         #logout-btn:hover {
             background-color: #555;
+        }
+
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -119,6 +150,48 @@ $user_info = getUserById($user_id);
     </nav>
 
     <main>
+    <section id="filme">
+        <h2>Filme Disponibile</h2>
+
+        <?php
+        // Extrage toate filmele din baza de date
+        $filme = getAllMovies($conn);
+
+        // Verifică dacă există filme înainte de a le afișa
+        if ($filme) {
+            echo '<ul>';
+            foreach ($filme as $film) {
+                // Verifică dacă există cheile înainte de a le utiliza
+                $titlu = isset($film['titlu']) ? $film['titlu'] : 'N/A';
+                $regizor = isset($film['regizor']) ? $film['regizor'] : 'N/A';
+                $durata = isset($film['durata']) ? $film['durata'] : 'N/A';
+                $idFilm = $film['id_film'];
+
+                echo '<li>';
+                echo $titlu . ' - Regizor: ' . $regizor . ' - Durată: ' . $durata . ' minute';
+                echo '<form action="" method="post" autocomplete="off">';
+                echo '<input type="hidden" name="buyTicket" value="' . $idFilm . '">';
+                echo '<input type="submit" value="Cumpără Bilet">';
+                echo '</form>';
+                echo '</li>';
+            }
+            echo '</ul>';
+        } else {
+            echo '<p>Nu există filme disponibile în acest moment.</p>';
+        }
+        ?>
+
+    </section>
+
+    <?php if (isset($message)): ?>
+        <p class="success-message"><?php echo $message; ?></p>
+    <?php endif; ?>
+
+    <?php if (isset($error)): ?>
+        <p class="error-message"><?php echo $error; ?></p>
+    <?php endif; ?>
+
+
         <section id="descriere">
             <h2>Descriere a aplicației</h2>
             <p>Rezervarea de bilete online pentru filme reprezintă o platformă care permite utilizatorilor să caute, vizualizeze și să-și rezerve bilete pentru filmele disponibile în cinematografele partenere. Utilizatorii pot vedea programul filmelor, săli de cinema disponibile și să-și selecționeze locurile dorite pentru vizionarea filmelor preferate.</p>
