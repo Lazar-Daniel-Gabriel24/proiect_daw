@@ -7,9 +7,9 @@ require 'C:/xampp/htdocs/registration/vendor/phpmailer/phpmailer/src/PHPMailer.p
 require 'C:/xampp/htdocs/registration/vendor/phpmailer/phpmailer/src/SMTP.php';
 require 'C:/xampp/htdocs/registration/vendor/phpmailer/phpmailer/src/Exception.php';
 
-// functions.php
 
-// Adaugă această funcție în fișierul functions.php
+
+
 function buyTicket($conn, $idFilm, $idUtilizator) {
     // Obține programul disponibil pentru filmul respectiv
     $program = getProgramForMovie($conn, $idFilm);
@@ -29,7 +29,6 @@ function buyTicket($conn, $idFilm, $idUtilizator) {
     }
 }
 
-// Adaugă această funcție pentru a obține programul disponibil pentru un film
 function getProgramForMovie($conn, $idFilm) {
     $sql = "SELECT * FROM program_filme WHERE id_film = ? AND data > NOW() LIMIT 1";
     $stmt = mysqli_prepare($conn, $sql);
@@ -445,7 +444,6 @@ function processMovieDetails($conn, $details) {
 
         // Verifică dacă inserarea a avut succes
 if ($stmt->affected_rows > 0) {
-    // Obțineți id-ul filmului inserat
     $filmId = $conn->insert_id;
 
     // Adaugă genurile în tabela 'genuri'
