@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['insertCinema'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['insertSala'])) {
-    $idCinema = $_POST['id_cinema']; // Asigură-te că ai un mod de a obține id-ul cinema-ului
+    $idCinema = $_POST['id_cinema']; 
     $numeSala = $_POST['nume_sala'];
 
     $inserted = insertSala($conn, $idCinema, $numeSala);
@@ -69,8 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['insertSala'])) {
 }
 
 if (isset($_POST['insertLoc'])) {
-    $idSala = $_POST['id_sala']; // Asigură-te că ai un mod de a obține id-ul sălii
-    $idCinema = $_POST['id_cinema']; // Asigură-te că ai un mod de a obține id-ul cinema-ului
+    $idSala = $_POST['id_sala']; 
+    $idCinema = $_POST['id_cinema']; 
 
     $inserted = insertLoc($conn, $idSala, $idCinema);
 
@@ -84,10 +84,10 @@ if (isset($_POST['insertLoc'])) {
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['insertProgram'])) {
-    $idFilm = $_POST['id_film']; // Asigură-te că ai un mod de a obține id-ul filmului
-    $idCinema = $_POST['id_cinema']; // Asigură-te că ai un mod de a obține id-ul cinema-ului
-    $idSala = $_POST['id_sala']; // Asigură-te că ai un mod de a obține id-ul sălii
-    $idLoc = $_POST['id_loc']; // Asigură-te că ai un mod de a obține id-ul locului
+    $idFilm = $_POST['id_film']; 
+    $idCinema = $_POST['id_cinema']; 
+    $idSala = $_POST['id_sala']; 
+    $idLoc = $_POST['id_loc']; 
     $data = $_POST['data'];
     $ora = $_POST['ora'];
 
@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['insertProgram'])) {
     <!-- Afișare grafic -->
     <canvas id="myChart" width="400" height="200"></canvas>
     <script>
-        // Aici veți adăuga codul pentru generarea și afișarea graficului
+        
         // Exemplu simplu cu Chart.js
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
